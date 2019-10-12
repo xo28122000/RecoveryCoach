@@ -4,6 +4,13 @@ const knnClassifier = ml5.KNNClassifier();
 let poseNet;
 let poses = [];
 
+
+const countFlag = {
+  a:0,
+  b:0,
+  reps:0
+}
+
 function setup() {
   const canvas = createCanvas(640, 480);
   canvas.parent('videoContainer');
@@ -38,6 +45,8 @@ function modelReady(){
 // A function to draw ellipses over the detected keypoints
 function drawKeypoints()  {
   // Loop through all the poses detected
+ 
+  let x =  document.getElementById('right-elbow');
   for (let i = 0; i < poses.length; i++) {
     // For each pose detected, loop through all the keypoints
     let pose = poses[i].pose;
@@ -46,6 +55,9 @@ function drawKeypoints()  {
       let keypoint = pose.keypoints[j];
       // Only draw an ellipse is the pose probability is bigger than 0.2
       if (keypoint.score > 0.2) {
+     
+         
+         
         fill(255, 0, 0);
         noStroke();
         ellipse(keypoint.position.x, keypoint.position.y, 10, 10);
@@ -131,6 +143,40 @@ function createButtons() {
   buttonClearAll.mousePressed(clearAllLabels);
 }
 
+
+
+function addAmReset(){
+  countFlag.reps+=1;
+  countFlag.a = 0;
+  countFlag.b = 0;
+  let countExe = document.getElementById('exe');
+  countExe.innerHTML = countFlag.reps
+}
+
+
+
+
+
+
+
+function checkCount(res){
+
+ console.log(res)
+  if(res.A > 0 && countFlag.a < 1){
+    countFlag.a +=1
+  }
+  if(res.B > 0 && countFlag.b < 1){
+    countFlag.b +=1
+  }
+  console.log(countFlag)
+  countFlag.b >= 1 && countFlag.a >= 1 ? addAmReset() : null
+
+}
+
+
+
+
+
 // Show the results
 function gotResults(err, result) {
   // Display any error
@@ -140,8 +186,11 @@ function gotResults(err, result) {
 
   if (result.confidencesByLabel) {
     const confidences = result.confidencesByLabel;
+    // console.log(result)
+    checkCount(confidences)
     // result.label is the label that has the highest confidence
     if (result.label) {
+      console.log(result.label)
       select('#result').html('Result: '+result.label);
       select('#confidence').html('Confidence: '+`${confidences[result.label] * 100} %`);
     }

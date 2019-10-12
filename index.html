@@ -60,8 +60,8 @@
     </style>
   </head>
 
-  <body>
-    <nav class="navbar navbar-inverse">
+  <body data-spy="scroll" data-target=".navbar" data-offset="50">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
         <div class="navbar-header">
           <button
@@ -78,10 +78,10 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Projects</a></li>
-            <li><a href="#">Contact</a></li>
+            <li class="active" ><a href="#">Home</a></li>
+            <li><a href="#section1">About</a></li>
+            <li><a href="#section1">Projects</a></li>
+            <li><a href="#section1">Contact</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
@@ -96,7 +96,9 @@
 
     <div class="container-fluid text-center">
       <div class="row content">
-        <div class="col-sm-2 sidenav"></div>
+        <div class="col-sm-2 sidenav">
+            
+        </div>
         <div class="col-sm-8 text-center">
           <h1>Recovery Track</h1>
           
@@ -106,7 +108,9 @@
             <span id="exerciseDone">Exercise Done:</span>
           </p>
         </div>
-        <div class="col-sm-2 sidenav"></div>
+        <div class="col-sm-2 sidenav">
+            
+        </div>
       </div>
     </div>
     <footer class="container-fluid text-center">

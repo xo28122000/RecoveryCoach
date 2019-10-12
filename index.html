@@ -1,36 +1,133 @@
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- load p5.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
-  <!-- load ml5.js -->
-  <script src="https://unpkg.com/ml5@0.2.3/dist/ml5.min.js" type="text/javascript"></script>
-  <style type="text/css">
-    body{
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <h1>Pose detection using PoseNet</h1>
-  <p id="status">Loading Model...</p>
-  <div id="videoContainer"></div>
-  <button id="addClassA">A example</button>
-  <button id="addClassB">B example</button>
-  <button id="resetA">A reset</button>
-  <button id="resetB">B reset</button>
-  <button id="buttonPredict">Predict</button>
-  <button id="clearAll">Clear</button>
-  <p id="result">Result:</p>
-  <p id="confidence">Confidence: </p>    
-  <p>
-    <span id="exampleA">Example A:</span>
-    <span id="exampleB">Example B:</span>    
-  </p>
-  <!-- load the sketch.js file -->
-  <script src="sketch.js"></script>
-</body>
+  <head>
+    <title>Recovery Track</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+    />
+    <!-- load p5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/addons/p5.dom.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- load ml5.js -->
+    <script
+      src="https://unpkg.com/ml5@0.2.3/dist/ml5.min.js"
+      type="text/javascript"
+    ></script>
+    <style>
+      /* Remove the navbar's default margin-bottom and rounded borders */
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+
+      /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+      .row.content {
+        height: 100%;
+      }
+
+      /* Set gray background color and 100% height */
+      .sidenav {
+        padding-top: 20px;
+        background-color: #f1f1f1;
+        height: 100%;
+      }
+
+      /* Set black background color, white text and some padding */
+      footer {
+        background-color: #555;
+        color: white;
+        padding: 15px;
+      }
+
+      /* On small screens, set height to 'auto' for sidenav and grid */
+      @media screen and (max-width: 767px) {
+        .sidenav {
+          height: auto;
+          padding: 15px;
+        }
+        .row.content {
+          height: auto;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button
+            type="button"
+            class="navbar-toggle"
+            data-toggle="collapse"
+            data-target="#myNavbar"
+          >
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Logo</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="#"
+                ><span class="glyphicon glyphicon-log-in"></span> Login</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid text-center">
+      <div class="row content">
+        <div class="col-sm-2 sidenav"></div>
+        <div class="col-sm-8 text-center">
+          <h1>Recovery Track</h1>
+          
+          <div id="videoContainer"></div>
+          
+          <p>
+            <span id="exerciseDone">Exercise Done:</span>
+          </p>
+        </div>
+        <div class="col-sm-2 sidenav"></div>
+      </div>
+    </div>
+    <footer class="container-fluid text-center">
+      <p>
+        <span class="label label-default" id="status">Loading Model...</span><br /><br />
+        
+        <button type="button" class="btn btn-info" id="addClassA">A example</button>
+          <button type="button" class="btn btn-info" id="addClassB">B example</button>
+          <button type="button" class="btn btn-info" id="resetA">A reset</button>
+          <button type="button" class="btn btn-info" id="resetB">B reset</button>
+          <button type="button" class="btn btn-info" id="buttonPredict">Predict</button>
+          <button type="button" class="btn btn-info" id="clearAll">Clear</button>
+          <br />
+          <span class="label label-default" id="result" style="margin: 1cm">Result:</span>
+          <span class="label label-default" id="confidence" style="margin: 1cm; width: 5cm">Confidence:</span>
+          <p>
+            <span class="label label-default" id="exampleA" style="margin: 1cm">Example A: </span>  
+            <span class="label label-default" id="exampleB" style="margin: 1cm">Example B: </span>
+          </p>
+    </p>
+    </footer>
+    <script src="sketch.js"></script>
+  </body>
 </html>

@@ -8,7 +8,9 @@ let poses = [];
 const countFlag = {
   a:0,
   b:0,
-  reps:0
+  reps:0,
+  abool:false,
+  bbool:false 
 }
 
 function setup() {
@@ -45,8 +47,7 @@ function modelReady(){
 // A function to draw ellipses over the detected keypoints
 function drawKeypoints()  {
   // Loop through all the poses detected
- 
-  let x =  document.getElementById('right-elbow');
+
   for (let i = 0; i < poses.length; i++) {
     // For each pose detected, loop through all the keypoints
     let pose = poses[i].pose;
@@ -145,13 +146,6 @@ function createButtons() {
 
 
 
-function addAmReset(){
-  countFlag.reps+=1;
-  countFlag.a = 0;
-  countFlag.b = 0;
-  let countExe = document.getElementById('exe');
-  countExe.innerHTML = countFlag.reps
-}
 
 
 
@@ -159,19 +153,7 @@ function addAmReset(){
 
 
 
-function checkCount(res){
 
- console.log(res)
-  if(res.A > 0 && countFlag.a < 1){
-    countFlag.a +=1
-  }
-  if(res.B > 0 && countFlag.b < 1){
-    countFlag.b +=1
-  }
-  console.log(countFlag)
-  countFlag.b >= 1 && countFlag.a >= 1 ? addAmReset() : null
-
-}
 
 
 
@@ -180,23 +162,45 @@ function checkCount(res){
 // Show the results
 function gotResults(err, result) {
   // Display any error
-  if (err) {
-    console.error(err);
-  }
-
+ 
+try{
   if (result.confidencesByLabel) {
     const confidences = result.confidencesByLabel;
+  
     // console.log(result)
-    checkCount(confidences)
+   
     // result.label is the label that has the highest confidence
     if (result.label) {
+    
       console.log(result.label)
+      // console.log( confidences[result.label] * 100)
+      result.label === 'A' && confidences[result.label] * 100 >= 98 ? countFlag.abool = true : null
+      result.label === 'B' &&  confidences[result.label] * 100 >= 98 ? countFlag.bbool = true : null
+
+      if(countFlag.abool && countFlag.bbool){
+        console.log('CCCCCCCCCCCCC')
+        countFlag.abool = false
+        countFlag.bbool = false
+        countFlag.reps++
+        let countExe = document.getElementById('exerciseDone');
+        countExe.innerHTML = countFlag.reps
+      }
+
+
+
       select('#result').html('Result: '+result.label);
       select('#confidence').html('Confidence: '+`${confidences[result.label] * 100} %`);
+    
+      
     }
   }
 
   classify();
+  }catch(e){
+    if (e) {
+      console.error(e);
+    }
+  }
 }
 
 // Update the example count for each label  
@@ -218,3 +222,7 @@ function clearAllLabels() {
   knnClassifier.clearAllLabels();
   updateCounts();
 }
+
+$( "#result" ).change(function() {
+  alert( "Handler for .change() called." );
+});

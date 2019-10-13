@@ -31,9 +31,10 @@ function changecolorRed() {
 function speak() {
   if(counter < 1){
     counter++
-    let msg = 'Good Job! Rep Finished!!!'
+    let msg = 'Great Job, Physical Therapist Notified, You have earned 3 stars.'
   var speech = new SpeechSynthesisUtterance(msg);
   speechSynthesis.speak(speech);
+//jons dad what if 
 
 
   //true if speaking 

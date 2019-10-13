@@ -100,14 +100,16 @@
     <div class="container-fluid text-center">
       <div class="row content">
         <div class="col-sm-2 sidenav" >
-            <h3> <span class="label label-warning" >Exercise Done: <span  class="badge" id="exerciseDone">7</span></span> </h3>
+            <h3> <span id="done" class="label label-warning" >Exercise Done: <span  class="badge" id="exerciseDone"></span></span> </h3>
         </div>
         <div class="col-sm-8 text-center" style="background:RGB(241, 241, 241); height: 80vh;">
           <h1>Recovery Track</h1>
           
           <div id="videoContainer"></div>
           
-         
+          <h3><span class="label label-default" id="result" style="margin: 1cm">Result:</span></h4>
+
+            <h3> <span class="label label-default" id="confidence" style="margin: 1cm; width: 1cm">Confidence:</span></h4>
         </div>
         <div class="col-sm-2 sidenav">
             
@@ -125,9 +127,7 @@
           <button type="button" class="btn btn-info" id="buttonPredict">Predict</button>
           <button type="button" class="btn btn-info" id="clearAll">Clear</button>
           <br />
-          <h3><span class="label label-default" id="result" style="margin: 1cm">Result:</span></h4>
-
-         <h3> <span class="label label-default" id="confidence" style="margin: 1cm; width: 1cm">Confidence:</span></h4>
+         
           <p>
             <span class="label label-default" id="exampleA" style="margin: 1cm">Example A: </span>  
             <span class="label label-default" id="exampleB" style="margin: 1cm">Example B: </span>

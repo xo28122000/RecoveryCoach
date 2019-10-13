@@ -1,9 +1,10 @@
 let video;
+var synth = window.speechSynthesis;
 // Create a KNN classifier
 const knnClassifier = ml5.KNNClassifier();
 let poseNet;
 let poses = [];
-
+var counter = 0;
 
 const countFlag = {
   a:0,
@@ -28,13 +29,26 @@ function changecolorRed() {
 }
 
 function speak() {
-  let msg = 'Good Job! Rep Finished!!!'
+  if(counter < 1){
+    counter++
+    let msg = 'Good Job! Rep Finished!!!'
   var speech = new SpeechSynthesisUtterance(msg);
   speechSynthesis.speak(speech);
-  //true if speaking 
-  var amISpeaking = synth.speaking
 
-  amISpeaking ? null : synth.cancel();
+
+  //true if speaking 
+  var amISpeaking = speech.speaking
+
+  amISpeaking ? null : speech.cancel();
+
+  }
+  
+ 
+
+
+
+
+ // utterance1 stops being spoken immediately, and both are removed from the queue
 }
 
 
@@ -214,12 +228,18 @@ try{
 
   classify();
 
-  if(countFlag.reps >= 1){
+  if(countFlag.reps === 3){
     console.log('hello')
     changecolor()
     speak()
+  
+  }else if (countFlag.reps > 3){
     countFlag.reps = 0
+    let countExe = document.getElementById('exerciseDone');
+    countExe.innerHTML = countFlag.reps
+
     changecolorRed()
+
   }
   }catch(e){
     if (e) {

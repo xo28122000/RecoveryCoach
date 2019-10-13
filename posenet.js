@@ -31,6 +31,7 @@ function draw() {
   drawSkeleton();
 }
 
+
 function modelReady(){
   select('#status').html('model Loaded')
 }
@@ -70,3 +71,5 @@ function drawSkeleton() {
     }
   }
 }
+
+

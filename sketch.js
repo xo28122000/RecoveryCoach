@@ -20,6 +20,13 @@ function changecolor() {
   $(this).addClass('label label-success').removeClass('label label-success ');
 }
 
+
+function changecolorRed() {
+  console.log('chnaging color')
+  $('#done').removeClass('label label-success').addClass('label label-warning');
+  $(this).addClass('llabel label-warning').removeClass('label label-warning');
+}
+
 function speak() {
   let msg = 'Good Job! Rep Finished!!!'
   var speech = new SpeechSynthesisUtterance(msg);
@@ -212,6 +219,7 @@ try{
     changecolor()
     speak()
     countFlag.reps = 0
+    changecolorRed()
   }
   }catch(e){
     if (e) {

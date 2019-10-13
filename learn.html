@@ -22,9 +22,9 @@
       type="text/javascript"
     ></script>
     <style>
-      .body{
-        min-height: 80vh;
-        height: 80vh;
+      .body {
+        min-height: 100vh;
+        height: 100vh;
       }
       /* Remove the navbar's default margin-bottom and rounded borders */
       .navbar {
@@ -34,14 +34,14 @@
 
       /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
       .row.content {
-        height: 80vh;
+        height: 100vh;
       }
 
       /* Set gray background color and 100% height */
       .sidenav {
         padding-top: 20px;
         background-color: #f1f1f1;
-        height: 80vh;
+        height: 100vh;
       }
 
       /* Set black background color, white text and some padding */
@@ -64,7 +64,7 @@
     </style>
   </head>
 
-  <body >
+  <body>
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -82,9 +82,8 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="learn.html">Learn</a></li>
-         
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="learn.html">Learn</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
@@ -99,40 +98,14 @@
 
     <div class="container-fluid text-center">
       <div class="row content">
-        <div class="col-sm-2 sidenav" >
-            <h3> <span class="label label-warning" >Exercise Done: <span  class="badge" id="exerciseDone">7</span></span> </h3>
-        </div>
-        <div class="col-sm-8 text-center" style="background:RGB(241, 241, 241); height: 80vh;">
-          <h1>Recovery Track</h1>
-          
-          <div id="videoContainer"></div>
-          
-         
-        </div>
-        <div class="col-sm-2 sidenav">
-            
-        </div>
+        <div class="col-sm-2 sidenav"></div>
+        <div
+          class="col-sm-8 text-center"
+          style="background:RGB(241, 241, 241)"
+        ></div>
+        <div class="col-sm-2 sidenav"></div>
       </div>
     </div>
-    <footer class="container-fluid text-center">
-      <p>
-        <span class="label label-default" id="status">Loading Model...</span><br /><br />
-        
-        <button type="button" class="btn btn-info" id="addClassA">A example</button>
-          <button type="button" class="btn btn-info" id="addClassB">B example</button>
-          <button type="button" class="btn btn-info" id="resetA">A reset</button>
-          <button type="button" class="btn btn-info" id="resetB">B reset</button>
-          <button type="button" class="btn btn-info" id="buttonPredict">Predict</button>
-          <button type="button" class="btn btn-info" id="clearAll">Clear</button>
-          <br />
-          <span class="label label-default" id="result" style="margin: 1cm">Result:</span>
-          <span class="label label-default" id="confidence" style="margin: 1cm; width: 5cm">Confidence:</span>
-          <p>
-            <span class="label label-default" id="exampleA" style="margin: 1cm">Example A: </span>  
-            <span class="label label-default" id="exampleB" style="margin: 1cm">Example B: </span>
-          </p>
-    </p>
-    </footer>
-    <script src="sketch.js"></script>
+    <footer class="container-fluid text-center"></footer>
   </body>
 </html>

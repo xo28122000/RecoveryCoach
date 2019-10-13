@@ -13,6 +13,24 @@ const countFlag = {
   bbool:false 
 }
 
+
+function changecolor() {
+  console.log('chnaging color')
+  $('#done').removeClass('label label-warning').addClass('label label-success');
+  $(this).addClass('label label-success').removeClass('label label-success ');
+}
+
+function speak() {
+  let msg = 'Good Job! Rep Finished!!!'
+  var speech = new SpeechSynthesisUtterance(msg);
+  speechSynthesis.speak(speech);
+  //true if speaking 
+  var amISpeaking = synth.speaking
+
+  amISpeaking ? null : synth.cancel();
+}
+
+
 function setup() {
   const canvas = createCanvas(640, 480);
   canvas.parent('videoContainer');
@@ -85,11 +103,14 @@ function drawSkeleton() {
 // Add the current frame from the video to the classifier
 function addExample(label) {
   // Convert poses results to a 2d array [[score0, x0, y0],...,[score16, x16, y16]]
-  const poseArray = poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y]);
+  if(poses.length >= 1 ){
 
-  // Add an example with a label to the classifier
-  knnClassifier.addExample(poseArray, label);
-  updateCounts();
+    const poseArray = poses[0].pose !== undefined ? poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y]): []
+    // Add an example with a label to the classifier
+    knnClassifier.addExample(poseArray, label);
+    updateCounts();
+  }
+
 }
 
 // Predict the current frame.
@@ -101,11 +122,15 @@ function classify() {
     return;
   }
   // Convert poses results to a 2d array [[score0, x0, y0],...,[score16, x16, y16]]
-  const poseArray = poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y]);
+  
+  if(poses.length > 0){
+    const poseArray =  poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y])
+    knnClassifier.classify(poseArray, gotResults);
+  }
 
   // Use knnClassifier to classify which label do these features belong to
   // You can pass in a callback function `gotResults` to knnClassifier.classify function
-  knnClassifier.classify(poseArray, gotResults);
+
 }
 
 // A util function to create UI buttons
@@ -143,27 +168,12 @@ function createButtons() {
   buttonClearAll = select('#clearAll');
   buttonClearAll.mousePressed(clearAllLabels);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Show the results
 function gotResults(err, result) {
   // Display any error
  
 try{
+
   if (result.confidencesByLabel) {
     const confidences = result.confidencesByLabel;
   
@@ -178,7 +188,7 @@ try{
       result.label === 'B' &&  confidences[result.label] * 100 >= 98 ? countFlag.bbool = true : null
 
       if(countFlag.abool && countFlag.bbool){
-        console.log('CCCCCCCCCCCCC')
+        
         countFlag.abool = false
         countFlag.bbool = false
         countFlag.reps++
@@ -196,6 +206,13 @@ try{
   }
 
   classify();
+
+  if(countFlag.reps >= 1){
+    console.log('hello')
+    changecolor()
+    speak()
+    countFlag.reps = 0
+  }
   }catch(e){
     if (e) {
       console.error(e);
@@ -223,6 +240,3 @@ function clearAllLabels() {
   updateCounts();
 }
 
-$( "#result" ).change(function() {
-  alert( "Handler for .change() called." );
-});

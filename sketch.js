@@ -21,9 +21,13 @@ function changecolor() {
 }
 
 function speak() {
-  let msg = 'Congrations Bitches'
+  let msg = 'Good Job! Rep Finished!!!'
   var speech = new SpeechSynthesisUtterance(msg);
   speechSynthesis.speak(speech);
+  //true if speaking 
+  var amISpeaking = synth.speaking
+
+  amISpeaking ? null : synth.cancel();
 }
 
 
@@ -99,11 +103,14 @@ function drawSkeleton() {
 // Add the current frame from the video to the classifier
 function addExample(label) {
   // Convert poses results to a 2d array [[score0, x0, y0],...,[score16, x16, y16]]
-  const poseArray = poses[0].pose !== undefined ? poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y]): []
+  if(poses.length >= 1 ){
 
-  // Add an example with a label to the classifier
-  knnClassifier.addExample(poseArray, label);
-  updateCounts();
+    const poseArray = poses[0].pose !== undefined ? poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y]): []
+    // Add an example with a label to the classifier
+    knnClassifier.addExample(poseArray, label);
+    updateCounts();
+  }
+
 }
 
 // Predict the current frame.
@@ -116,11 +123,14 @@ function classify() {
   }
   // Convert poses results to a 2d array [[score0, x0, y0],...,[score16, x16, y16]]
   
-  const poseArray =  poses[0].pose !== undefined ? poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y]): []
+  if(poses.length > 0){
+    const poseArray =  poses[0].pose.keypoints.map(p => [p.score, p.position.x, p.position.y])
+    knnClassifier.classify(poseArray, gotResults);
+  }
 
   // Use knnClassifier to classify which label do these features belong to
   // You can pass in a callback function `gotResults` to knnClassifier.classify function
-  knnClassifier.classify(poseArray, gotResults);
+
 }
 
 // A util function to create UI buttons
@@ -197,7 +207,7 @@ try{
 
   classify();
 
-  if(countFlag.reps >= 10){
+  if(countFlag.reps >= 1){
     console.log('hello')
     changecolor()
     speak()
